@@ -1,0 +1,59 @@
+- name: Creating the directories required for prometheus
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+  with_items:
+    - "{{ prometheus_archive_file_download_directory }}"
+    - "{{ prometheus_configaration_directory }}"
+
+- name: Downloading the prometheus
+  get_url:
+    url: "{{ prometheus_download_URL }}"
+    dest: "{{ prometheus_archive_file_download_directory }}"
+    owner: root
+    group: root
+
+- name: Extracting the prometheus archive file 
+  unarchive:
+    src: "{{ prometheus_archive_file_download_directory }}/{{ prometheus_archvie_file_name }}"
+    dest: "{{ prometheus_archive_file_download_directory }}"
+    owner: root
+    group: root
+    remote_src: yes
+
+- name: Copying the prometheus binary to /usr/local/bin
+  copy:
+    src: "{{ prometheus_archive_file_download_directory }}/{{ prometheus_folder_name }}/{{ prometheus_binary_name }}"
+    dest: "{{ prometheus_binary_loaction }}/{{ prometheus_binary_name }}"
+    owner: root
+    group: root
+    mode: 111
+    remote_src: yes
+
+- name: Copying the prometheus config file
+  copy:
+    src: "prometheus.yml"
+    dest: "{{ prometheus_configaration_directory }}/prometheus.yml"
+    owner: root
+    group: root
+  notify:
+    - prometheus service restart
+
+- name: Copying the systemd service file prometheus
+  template:
+    src: "systemd/system/prometheus.service.j2"
+    dest: "/etc/systemd/system/{{ prometheus_server_name }}.service"
+    owner: root
+    group: root
+  notify:
+    - systemd daemon reload
+
+- name: start and enable the prometheus service
+  service:
+    name: "{{ prometheus_server_name }}"
+    enabled: true
+    state: started
+
+

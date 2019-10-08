@@ -1,0 +1,18 @@
+prometheus_archive_file_download_directory: "/opt"
+
+prometheus_version: "2.13.0"
+
+prometheus_download_URL: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+
+prometheus_archvie_file_name: "prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+
+prometheus_folder_name: "prometheus-{{ prometheus_version }}.linux-amd64"
+
+prometheus_binary_name: "prometheus"
+
+prometheus_binary_loaction: "/usr/local/bin"
+
+prometheus_configaration_directory: "/etc/prometheus"
+
+prometheus_server_name: "prometheus"
+

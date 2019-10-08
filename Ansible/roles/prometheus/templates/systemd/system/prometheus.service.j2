@@ -1,0 +1,13 @@
+[Unit]
+Description=Prometheus
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=root
+Group=root
+Type=simple
+ExecStart= {{ prometheus_binary_loaction }}/{{prometheus_binary_name }} --config.file {{ prometheus_configaration_directory }}/prometheus.yml
+
+[Install]
+WantedBy=multi-user.target

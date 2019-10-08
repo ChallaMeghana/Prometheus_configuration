@@ -1,0 +1,4 @@
+- hosts: promotheusservers
+  become: true
+  roles:
+    - { role: prometheus }

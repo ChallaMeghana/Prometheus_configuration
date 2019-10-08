@@ -1,0 +1,3 @@
+[promotheusservers]
+
+13.233.183.194 ansible_ssh_private_key_file=/etc/ansible/keys/Meghana.pem
